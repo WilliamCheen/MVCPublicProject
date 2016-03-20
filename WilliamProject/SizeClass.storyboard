@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="PPa-dV-cWy">
+            <objects>
+                <viewController storyboardIdentifier="SizeClassViewController" id="lCh-Hr-6Pk" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ai0-Xa-pHJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Pj-sx-zYi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="daI-7i-GeH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="header.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="RD0-bh-w3A">
+                                <rect key="frame" x="200" y="120" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Yzd-hk-B65"/>
+                                    <constraint firstAttribute="width" constant="50" id="oKA-V0-Sca"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Yzd-hk-B65"/>
+                                        <exclude reference="oKA-V0-Sca"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="Yzd-hk-B65"/>
+                                        <include reference="oKA-V0-Sca"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello World" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfp-Ur-kvL">
+                                <rect key="frame" x="256" y="529.5" width="88.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=compact">
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                </variation>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yfp-Ur-kvL" firstAttribute="top" secondItem="RD0-bh-w3A" secondAttribute="top" id="1A7-mf-43s"/>
+                            <constraint firstItem="yfp-Ur-kvL" firstAttribute="leading" secondItem="RD0-bh-w3A" secondAttribute="trailing" constant="15" id="2DT-sc-LHz"/>
+                            <constraint firstItem="RD0-bh-w3A" firstAttribute="top" secondItem="ai0-Xa-pHJ" secondAttribute="bottom" constant="100" id="45i-gH-qvH">
+                                <variation key="heightClass=compact" constant="20"/>
+                            </constraint>
+                            <constraint firstItem="2Pj-sx-zYi" firstAttribute="top" secondItem="yfp-Ur-kvL" secondAttribute="bottom" constant="50" id="FHH-Hs-Gml"/>
+                            <constraint firstItem="yfp-Ur-kvL" firstAttribute="centerX" secondItem="daI-7i-GeH" secondAttribute="centerX" id="U0c-XU-RxS"/>
+                            <constraint firstItem="2Pj-sx-zYi" firstAttribute="top" secondItem="yfp-Ur-kvL" secondAttribute="bottom" constant="50" id="XWS-yQ-gd3"/>
+                            <constraint firstItem="yfp-Ur-kvL" firstAttribute="centerX" secondItem="daI-7i-GeH" secondAttribute="centerX" id="ms2-so-dTy"/>
+                            <constraint firstItem="RD0-bh-w3A" firstAttribute="centerX" secondItem="daI-7i-GeH" secondAttribute="centerX" id="sbZ-31-kbo"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="1A7-mf-43s"/>
+                                <exclude reference="2DT-sc-LHz"/>
+                                <exclude reference="U0c-XU-RxS"/>
+                                <exclude reference="XWS-yQ-gd3"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=compact">
+                            <mask key="constraints">
+                                <exclude reference="1A7-mf-43s"/>
+                                <exclude reference="2DT-sc-LHz"/>
+                                <include reference="U0c-XU-RxS"/>
+                                <exclude reference="ms2-so-dTy"/>
+                                <exclude reference="FHH-Hs-Gml"/>
+                                <include reference="XWS-yQ-gd3"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Iga-eD-3we" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="542" y="-452"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="header.jpg" width="200" height="200"/>
+    </resources>
+</document>
