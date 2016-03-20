@@ -141,7 +141,7 @@
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
     NSString *title = @"您已经被屏蔽";
-    NSDictionary *attribute = @{NSFontAttributeName:[UIFont italicSystemFontOfSize:17],
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont italicSystemFontOfSize:16],
                                 NSForegroundColorAttributeName:[UIColor lightGrayColor]};
     return [[NSAttributedString alloc]initWithString:title attributes:attribute];
 }
@@ -161,7 +161,7 @@
 
 - (NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state
 {
-    NSString *buttonTitle = @"联系管理员";
+    NSString *buttonTitle = @"联系她她管理员";
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc]init];
     style.lineSpacing = 5.0f;
