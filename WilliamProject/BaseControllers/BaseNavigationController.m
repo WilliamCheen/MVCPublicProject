@@ -1,18 +1,18 @@
 //
-//  NewsTestController.m
+//  BaseNavigationController.m
 //  WilliamProject
 //
-//  Created by WilliamChen on 16/3/28.
+//  Created by WilliamChen on 16/3/30.
 //  Copyright © 2016年 WilliamChen. All rights reserved.
 //
 
-#import "NewsTestController.h"
+#import "BaseNavigationController.h"
 
-@interface NewsTestController ()
+@interface BaseNavigationController ()
 
 @end
 
-@implementation NewsTestController
+@implementation BaseNavigationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

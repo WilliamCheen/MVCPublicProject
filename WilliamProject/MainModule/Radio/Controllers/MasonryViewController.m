@@ -1,18 +1,18 @@
 //
-//  NewsTestController.m
+//  MasonryViewController.m
 //  WilliamProject
 //
-//  Created by WilliamChen on 16/3/28.
+//  Created by WilliamChen on 16/5/30.
 //  Copyright © 2016年 WilliamChen. All rights reserved.
 //
 
-#import "NewsTestController.h"
+#import "MasonryViewController.h"
 
-@interface NewsTestController ()
+@interface MasonryViewController ()
 
 @end
 
-@implementation NewsTestController
+@implementation MasonryViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

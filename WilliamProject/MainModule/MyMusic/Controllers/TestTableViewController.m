@@ -1,18 +1,18 @@
 //
-//  NewsTestController.m
+//  TestTableViewController.m
 //  WilliamProject
 //
-//  Created by WilliamChen on 16/3/28.
+//  Created by WilliamChen on 16/8/7.
 //  Copyright © 2016年 WilliamChen. All rights reserved.
 //
 
-#import "NewsTestController.h"
+#import "TestTableViewController.h"
 
-@interface NewsTestController ()
+@interface TestTableViewController ()
 
 @end
 
-@implementation NewsTestController
+@implementation TestTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

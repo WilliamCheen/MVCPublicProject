@@ -1,18 +1,18 @@
 //
-//  NewsTestController.m
+//  TestPushViewController.m
 //  WilliamProject
 //
-//  Created by WilliamChen on 16/3/28.
+//  Created by WilliamChen on 16/7/25.
 //  Copyright © 2016年 WilliamChen. All rights reserved.
 //
 
-#import "NewsTestController.h"
+#import "TestPushViewController.h"
 
-@interface NewsTestController ()
+@interface TestPushViewController ()
 
 @end
 
-@implementation NewsTestController
+@implementation TestPushViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
