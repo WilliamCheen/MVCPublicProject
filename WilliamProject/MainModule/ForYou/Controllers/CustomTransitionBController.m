@@ -20,7 +20,7 @@
     self.view.backgroundColor = [UIColor redColor];
     
     UILabel *label = [[UILabel alloc] init];
-    label.size = CGSizeMake(100, 100);
+//    label.size = CGSizeMake(100, 100);
     label.center = self.view.center;
     label.text = @"B";
     label.font = [UIFont systemFontOfSize:25];

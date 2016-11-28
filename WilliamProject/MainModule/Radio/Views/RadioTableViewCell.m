@@ -15,6 +15,11 @@
     // Initialization code
 }
 
+- (void)dealloc
+{
+    NSLog(@"RadioCell Dealloc");
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

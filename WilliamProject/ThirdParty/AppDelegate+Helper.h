@@ -10,4 +10,6 @@
 
 @interface AppDelegate (Helper)
 
++ (void)registerRemotNotification;
+
 @end

@@ -7,11 +7,18 @@
 //
 
 #import "RadioViewController.h"
-#import "TestViewController.h"
-#import "PlaySlider.h"
+#import "SVPullToRefresh.h"
+#import "MasonryViewController.h"
+#import "PDTSimpleCalendar.h"
+#import "RadioTableViewCell.h"
+#import "MJRefresh.h"
 
-@interface RadioViewController ()
-@property (nonatomic, strong) UIView *testView;
+@interface RadioViewController ()<UITableViewDelegate, UITableViewDataSource>
+{
+    UITableView *table;
+}
+@property (nonatomic, strong) NSMutableArray *datasource;
+
 @end
 
 @implementation RadioViewController
@@ -20,64 +27,100 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UISlider *slider = [[UISlider alloc] initWithFrame:CGRectMake(20, 100, self.view.width - 40, 20)];
-    [slider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
-    [self.view addSubview:slider];
+    _datasource = [NSMutableArray array];
     
-    _testView = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
-    _testView.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:_testView];
-    
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(10, 10, 30, 30);
-    button.backgroundColor = [UIColor orangeColor];
-    [button addTarget:self
-               action:@selector(buttonClick:)
-     forControlEvents:UIControlEventTouchUpInside];
-    [_testView addSubview:button];
-    
-    
-    
+    table = [[UITableView alloc]initWithFrame:self.view.bounds];
+    table.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    table.dataSource = self;
+    table.delegate = self;
+    [self.view addSubview:table];
+    [table registerClass:[RadioTableViewCell class] forCellReuseIdentifier:@"cellReuse"];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [super viewDidAppear:animated];
+    if (!table.pullToRefreshView) {
+        __weak RadioViewController *weakSelf = self;
+        [table addPullToRefreshWithActionHandler:^{
+            [weakSelf refreshData];
+        }];
+        [table addInfiniteScrollingWithActionHandler:^{
+            [weakSelf loadMoreData];
+        }];
+    }
+    [table triggerPullToRefresh];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)refreshData
 {
-    [super viewWillDisappear:animated];
-    
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [_datasource removeAllObjects];
+        for (NSUInteger i = 0; i < 20; i ++) {
+            [_datasource addObject:@1];
+        }
+        [table.pullToRefreshView stopAnimating];
+        [table reloadData];
+    });
+}
+
+- (void)loadMoreData
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        for (NSUInteger i = 0; i < 20; i ++) {
+            [_datasource addObject:@1];
+        }
+        [table.infiniteScrollingView stopAnimating];
+        [table reloadData];
+        
+        if (_datasource.count >= 100) {
+            [table.mj_footer endRefreshingWithNoMoreData];
+        }
+        else {
+            [table.mj_footer endRefreshing];
+        }
+    });
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _datasource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    RadioTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellReuse" forIndexPath:indexPath];
+    cell.textLabel.text = @"SVPullToRefresh";
+    return cell;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.datasource removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 
-- (void)buttonClick:(UIButton *)button{
-//    TestViewController *testVC = [[TestViewController alloc]init];
-//    testVC.view.backgroundColor = [UIColor orangeColor];
-//    [self.navigationController pushViewController:testVC animated:NO];
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [table deselectRowAtIndexPath:indexPath animated:YES];
     
-//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
-//    UIWindow *window =[[[UIApplication sharedApplication] delegate] window];
-//    CGRect rect = [_testView convertRect:button.frame toView:window];
-//    
-//    UIView *view = [[UIView alloc]initWithFrame:rect];
-//    view.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:view];
-    
-    UIStoryboard *st = [UIStoryboard storyboardWithName:@"SizeClass" bundle:[NSBundle mainBundle]];
-    UIViewController *vc = [st instantiateViewControllerWithIdentifier:@"SizeClassViewController"];
+    MasonryViewController *vc = [[MasonryViewController alloc]init];
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
     
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+    NSLog(@"Table Section:%@", NSStringFromUIEdgeInsets(tableView.contentInset));
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

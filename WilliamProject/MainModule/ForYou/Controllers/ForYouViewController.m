@@ -8,11 +8,9 @@
 
 #import "ForYouViewController.h"
 #import "UIImageView+YYWebImage.h"
-#import "M80AttributedLabel.h"
-#import "TTTTViewController.h"
 #import "CustomTransitionAController.h"
 
-@interface ForYouViewController ()<M80AttributedLabelDelegate, UITextViewDelegate>
+@interface ForYouViewController ()<UITextViewDelegate>
 @property (nonatomic, strong) UIView *backView;
 @property (nonatomic, strong) NSMutableArray *browserPhotos;
 @property (nonatomic, strong) MASConstraint *topCons;
@@ -40,31 +38,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // IMG_0058.JPG
     // Do any additional setup after loading the view.
-    
-//    dispatch_queue_t queue1 = dispatch_queue_create("com.xiaoyu.queue1", DISPATCH_QUEUE_SERIAL);
-//    
-//    dispatch_sync(queue1, ^{
-//        [NSThread sleepForTimeInterval:1];
-//        NSLog(@"线程任务一:%@",[NSThread currentThread]);
-//    });
-//    dispatch_sync(queue1, ^{
-//        [NSThread sleepForTimeInterval:2];
-//        NSLog(@"线程任务二:%@",[NSThread currentThread]);
-//    });
-//    dispatch_sync(queue1, ^{
-//        [NSThread sleepForTimeInterval:3];
-//        NSLog(@"线程任务三:%@",[NSThread currentThread]);
-//    });
-    /*
-    MWPhoto *photo1 = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://devel-test-processing.lestata.com/TaTaUploads/Topic/2016-01-15/199109591452841525804474938.jpg"]];
-    MWPhoto *photo2 = [MWPhoto photoWithURL:[NSURL URLWithString:@"http://devel-test-processing.lestata.com/TaTaUploads/Topic/2016-01-15/199109591452841525918436279.jpg"]];
-    _browserPhotos = [NSMutableArray arrayWithObjects:photo1, photo2, nil];*/
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setBackgroundColor:[UIColor orangeColor]];
-    [button setFrame:CGRectMake(100, 80, self.view.width - 200, 40)];
+    [button setFrame:CGRectMake(100, 80, self.view.frame.size.width - 200, 40)];
     [button addTarget:self action:@selector(buttonAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     
@@ -87,8 +65,9 @@
     CGFloat padding = 10;
     
     [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(320, 320));
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(self.mas_topLayoutGuideBottom);
+        make.bottom.equalTo(self.mas_bottomLayoutGuideTop);
     }];
     
     [greenView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -125,28 +104,6 @@
         [_backView layoutIfNeeded];
     } completion:nil];
     
-    M80AttributedLabel *label  = [[M80AttributedLabel alloc]initWithFrame:CGRectMake(10, self.view.height - 119, self.view.width - 20, 30)];
-    label.text = @"@夏天正好，天空灰的像苦海，离开你以后，我没有，更自由，你说我们都没有错，只是忘了怎么退后，心事给了沉默，你说我们都没有错，只是忘了怎么退后，心事给了沉默";
-    label.textColor = [UIColor lightGrayColor];
-    label.lineSpacing = -2;
-    label.linkColor = [UIColor redColor];
-    label.numberOfLines = 0;
-    label.delegate = self;
-    label.font = [UIFont systemFontOfSize:13];
-    [label addCustomLink:@"http://www.baidu.com" forRange:NSMakeRange(0, 4)];
-    [self.view addSubview:label];
-    [label sizeToFit];
-    
-//    _backView.layer.shouldRasterize = YES;
-//    _backView.transform = CGAffineTransformScale(_backView.transform, 0.5, 0.5);
-//    _backView.transform = CGAffineTransformRotate(_backView.transform, 0.2);
-//    
-//    
-//    CGAffineTransform transform = CGAffineTransformIdentity;
-//    transform = CGAffineTransformScale(transform, 0.5, 0.5);
-//    transform = CGAffineTransformRotate(transform, M_1_PI);
-//    transform = CGAffineTransformTranslate(transform, 200, 0);
-    
     CATransform3D transform = CATransform3DIdentity;
     transform.m34 = -1.0 / 500.0;
     transform = CATransform3DRotate(transform, M_PI_4, 0, 1, 0);
@@ -156,60 +113,10 @@
     }];
 }
 
-- (void)m80AttributedLabel:(M80AttributedLabel *)label clickedOnLink:(id)linkData
-{
-    NSLog(@"CustomLink:%@",linkData);
-    NSLog(@"Bounds:%@ \n Frame:%@", NSStringFromCGRect(_backView.bounds), NSStringFromCGRect(_backView.frame));
-    
-    
-    
-    /*
-    TTTTViewController *vc = [[TTTTViewController alloc]init];
-    vc.hidesBottomBarWhenPushed = YES; 
-    [self.navigationController pushViewController:vc animated:YES];*/
-    
-    /*
-    TTTTViewController *vc = [[TTTTViewController alloc]init];
-    self.tabBarController.definesPresentationContext = YES;
-    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    [self.tabBarController presentViewController:vc animated:YES completion:nil];*/
-    
-    /*
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc]initWithDelegate:self];
-    browser.displayActionButton = NO;
-    browser.displayNavArrows = NO;
-    browser.displaySelectionButtons = NO;
-    browser.zoomPhotosToFill = YES;
-    browser.alwaysShowControls = NO;
-    browser.enableGrid = YES;
-    browser.startOnGrid = NO;
-    browser.autoPlayOnAppear = NO;
-    [self.navigationController pushViewController:browser animated:YES];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deleteBarItemAction)];
-    browser.navigationItem.rightBarButtonItem = item;*/
-    
-    
-    CustomTransitionAController *avc = [[CustomTransitionAController alloc]init];
-    [self.navigationController pushViewController:avc animated:YES];
-    
-    
-}
-
 - (void)deleteBarItemAction
 {
     NSLog(@"DELETE");
 }
-
-//- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-//{
-//    return _browserPhotos.count;
-//}
-//
-//- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-//{
-//    return _browserPhotos[index];
-//}
 
 - (void)viewDidAppear:(BOOL)animated
 {

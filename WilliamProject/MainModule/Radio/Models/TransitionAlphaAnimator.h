@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TransitionAlphaAnimator : NSObject
-
+@interface TransitionAlphaAnimator : NSObject<UIViewControllerAnimatedTransitioning>
+@property (nonatomic, assign) BOOL presenting;
 @end

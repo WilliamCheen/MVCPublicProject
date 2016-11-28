@@ -10,26 +10,30 @@
 #import "SVPullToRefresh.h"
 #import "NewsTestController.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "NewsViewCell.h"
 
 @interface NewViewController ()<UIToolbarDelegate, UITableViewDataSource, UITableViewDelegate, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource>
+
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIToolbar   *segContainerBar;
-@property (nonatomic, strong) NSArray     *cities;
+@property (nonatomic, strong) NSMutableArray     *cities;
+@property (nonatomic, strong) NSMutableArray *provience;
 @property (nonatomic, strong) UISegmentedControl *segControl;
+@property (nonatomic, copy) NSString *username;
 
 @end
+
 
 @implementation NewViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.cities = @[@"北京",@"上海",@"广州",@"南京",@"青岛",@"郑州",@"湖南",@"南京",@"青岛",@"郑州",@"湖南"];
-    self.navigationController.toolbarHidden = NO;
+    _provience = [NSMutableArray array];
+    self.cities = @[@"北京",@"上海",@"广州",@"南京",@"青岛",@"郑州",@"湖南",@"南京",@"青岛",@"郑州",@"湖南",@"北京",@"上海",@"广州",@"南京",@"青岛",@"郑州",@"湖南",@"南京"].mutableCopy;
     
     [self.view addSubview:self.tableView];
-    [self.tableView registerClass:[NewsViewCell class] forCellReuseIdentifier:@"CellID"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CellID"];
+    
 
 	[self.view addSubview:self.segContainerBar];
     
@@ -41,6 +45,16 @@
     
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
+    
+
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.right.equalTo(self.view);
+    }];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
 }
 
 - (void)viewWillLayoutSubviews{
@@ -69,26 +83,11 @@
     return  UIBarPositionTopAttached;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [_tableView triggerPullToRefresh];
-    
-    
-}
-
 #pragma mark EventResponse
 
 - (void)segmentControlAction
 {
-    
     [_tableView triggerPullToRefresh];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSLog(@"OffSet:%@",NSStringFromCGPoint(scrollView.contentOffset));
 }
 
 - (void)hidRefreshView
@@ -98,23 +97,41 @@
 
 #pragma mark -UITableViewDateSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    return self.cities.count;
-    return 0;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.cities.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NewsViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID" forIndexPath:indexPath];
-//    [cell configureCellWithString:self.cities[indexPath.row]];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellID" forIndexPath:indexPath];
     cell.textLabel.text = self.cities[indexPath.row];
-    cell.imageView.image = [UIImage imageNamed:@"Image_header"];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     NewsTestController *vc = [[NewsTestController alloc]init];
-    vc.view.backgroundColor = [UIColor whiteColor];
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.cities removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
 }
 
 #pragma mark - DZNEmptyDataSetSource
@@ -201,10 +218,9 @@
 
 - (UITableView *)tableView{
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
+        _tableView = [[UITableView alloc]init];
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        _tableView.rowHeight = 80;
     }
     return _tableView;
 }
@@ -213,15 +229,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

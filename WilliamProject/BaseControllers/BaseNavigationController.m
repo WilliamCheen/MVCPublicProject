@@ -17,11 +17,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    /*
+    UIImageView *imgView = [self findHairlineImageViewUnder:self.navigationBar];
+    imgView.hidden = YES;
+    self.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationBar.backgroundColor = [UIColor whiteColor];
+     */
+    
+    self.navigationBar.backIndicatorImage = [UIImage imageNamed:@"navGrayBack"];
+    self.navigationBar.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"navGrayBack"];
+    
+    self.navigationBar.tintColor = [UIColor orangeColor];
+}
+
+- (UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (UIViewController *)childViewControllerForStatusBarStyle
+{
+    return self.topViewController;
 }
 
 /*

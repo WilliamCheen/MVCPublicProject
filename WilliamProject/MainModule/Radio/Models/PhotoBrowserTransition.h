@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PhotoBrowserTransition : NSObject
-
+@interface PhotoBrowserTransition : NSObject<UIViewControllerAnimatedTransitioning>
+@property (nonatomic, assign) CGRect transformRect;
 @end
